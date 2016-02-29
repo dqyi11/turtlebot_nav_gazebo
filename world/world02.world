@@ -31,7 +31,7 @@
           <geometry>
             <plane>
               <normal>0 0 1</normal>
-              <size>50 50</size>
+              <size>20 20</size>
             </plane>
           </geometry>
           <surface>
@@ -53,7 +53,7 @@
           <geometry>
             <plane>
               <normal>0 0 1</normal>
-              <size>50 50</size>
+              <size>20 20</size>
             </plane>
           </geometry>
           <material>
@@ -77,19 +77,10 @@
       <sim_time>758 150000000</sim_time>
       <real_time>472 661824916</real_time>
       <wall_time>1456710076 104231824</wall_time>
-      <model name='chair1'>
-        <pose>-1.68137 -3.4506 0 0 0 -0.035912</pose>
-        <link name='link'>
-          <pose>-1.68137 -3.4506 0 0 0 -0.035912</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-      </model>
       <model name='ground_plane_0'>
-        <pose>0.497681 0 0 0 -0 0</pose>
+        <pose>0 0 0 0 -0 0</pose>
         <link name='link'>
-          <pose>0.497681 0 0 0 -0 0</pose>
+          <pose>0 0 0 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
@@ -1169,55 +1160,6 @@
         <robotNamespace>/</robotNamespace>
       </plugin>
       <pose>0 0 0 0 -0 0</pose>
-    </model>
-    <model name='chair1'>
-      <static>1</static>
-      <link name='link'>
-        <inertial>
-          <pose>0 0 0 0 -0 0</pose>
-          <mass>10</mass>
-          <inertia>
-            <ixx>0.0417342</ixx>
-            <ixy>0</ixy>
-            <ixz>0</ixz>
-            <iyy>0.0618148</iyy>
-            <iyz>0</iyz>
-            <izz>0.084874</izz>
-          </inertia>
-        </inertial>
-        <collision name='collision'>
-          <geometry>
-            <mesh>
-              <uri>model://chair1/meshes/chair1.dae</uri>
-            </mesh>
-          </geometry>
-          <max_contacts>10</max_contacts>
-          <surface>
-            <bounce/>
-            <friction>
-              <ode/>
-            </friction>
-            <contact>
-              <ode/>
-            </contact>
-          </surface>
-        </collision>
-        <visual name='visual'>
-          <geometry>
-            <mesh>
-              <uri>model://chair1/meshes/chair1.dae</uri>
-            </mesh>
-          </geometry>
-        </visual>
-        <velocity_decay>
-          <linear>0</linear>
-          <angular>0</angular>
-        </velocity_decay>
-        <self_collide>0</self_collide>
-        <kinematic>0</kinematic>
-        <gravity>1</gravity>
-      </link>
-      <pose>-1 -6 0 0 -0 0</pose>
     </model>
     <model name='unit_box_1'>
       <pose>3 -1 0.5 0 -0 0</pose>
