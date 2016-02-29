@@ -10,6 +10,10 @@ catkin_package(
   CATKIN_DEPENDS message_runtime
 )
 
+include_directories(include
+                    ${catkin_INCLUDE_DIRS}
+                   )
+
 add_executable(path_follower src/path_follower.cpp
                              src/path_follower_demo.cpp)
 
