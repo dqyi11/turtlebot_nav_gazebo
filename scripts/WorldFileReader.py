@@ -61,8 +61,8 @@ class WorldFileReader(QtGui.QWidget):
         height = self.scale * self.worldSize[1] 
         img = QtGui.QImage(QtCore.QSize(width, height), QtGui.QImage.Format_ARGB32_Premultiplied)
         img.fill(QtCore.Qt.white)
-        qp = QtGui.QPainter(img)
-        qp.begin(self)
+        qp = QtGui.QPainter()
+        qp.begin(img)
         color = QtGui.QColor(0,0,0)
         qp.setPen(color)
         qp.setBrush(color)
@@ -74,6 +74,7 @@ class WorldFileReader(QtGui.QWidget):
                            QtCore.QPointF(model.points[3][0],model.points[3][1]))
             
         img.save(outfile, 'PNG')
+        qp.end()
     
     def paintEvent(self, e):
 
