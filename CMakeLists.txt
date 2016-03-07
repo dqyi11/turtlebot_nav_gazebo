@@ -6,6 +6,9 @@ find_package(catkin REQUIRED COMPONENTS
              roscpp
             )
 
+include_directories(include
+                   )
+
 catkin_package(
   CATKIN_DEPENDS message_runtime
 )
