@@ -8,7 +8,7 @@ int main( int argc, char** argv ) {
   }
   PathFollower follower;  
   if( argc > 1 ) {
-    follower.loadFile( argv[1] );
+    follower.load_file( argv[1] );
   }
   ros::spin();
   return 0;
