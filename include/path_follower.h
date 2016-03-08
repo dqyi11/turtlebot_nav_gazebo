@@ -3,23 +3,23 @@
 
 #include <string>
 
-#include "tf/transform_broadcaster.h"
-#include "tf/transform_listener.h"
-#include "tf/message_filter.h"
-#include "message_filters/subscriber.h"
-#include "tf/transform_datatypes.h"
+#include "turtlebot_navigation_mgr.h"
 
-class PathFollower {
+struct Pos2D{
+  int x;
+  int y;
+};
+
+class PathFollower : public TurtlebotNavigationMgr {
 public:
   PathFollower();
   virtual ~PathFollower();
   
   void load_file( std::string filename );
-  void spin();
+  void run();
 protected:
-  ros::NodeHandle  m_nh;
-  ros::Subscriber  m_frontier_sub;
-  tf::TransformListener *m_tf_listener;
+  std::vector< std::pair<Pos2D, bool> > m_target_poses;
+  int                                   m_target_pos_idx;
 };
 
 
