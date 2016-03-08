@@ -17,7 +17,7 @@ void PathFollower::load_file( string filename ) {
   ifstream read_file;
   m_target_poses.clear();
   m_target_pos_idx = -1;
-  read_file.open( filename );
+  read_file.open( filename.c_str() );
   if( !read_file.good() ) {
     cout << "FAILED IN OPEN " << filename << endl;
     return;
@@ -42,7 +42,7 @@ void PathFollower::load_file( string filename ) {
 void PathFollower::run() {
 
   for(unsigned int i=0; i< m_target_poses.size(); i++ ) {
-    Pos2D pos = m_target_poses[i]; 
+    Pos2D pos = m_target_poses[i].first; 
   }
 
 }
