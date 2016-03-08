@@ -4,6 +4,9 @@ project(turtlebot_nav_gazebo)
 
 find_package(catkin REQUIRED COMPONENTS
              roscpp
+             tf
+             actionlib
+             move_base_msgs
             )
 
 include_directories(include
@@ -20,5 +23,11 @@ include_directories(include
 add_executable(path_follower src/path_follower.cpp
                              src/path_follower_demo.cpp)
 
+add_executable(test_turtlebot_nav_mgr src/test_turtlebot_navigation_mgr.cc
+                                      src/turtlebot_navigation_mgr.cc)
+
 target_link_libraries(path_follower ${catkin_LIBRARIES}
+                     )
+
+target_link_libraries(test_turtlebot_nav_mgr ${catkin_LIBRARIES}
                      )

@@ -47,7 +47,6 @@
     <arg name="scan_topic" value="/scan" />
   </include>
   -->
-  
  
   <include file="$(find turtlebot_navigation)/launch/includes/move_base.launch.xml">
     <arg name="custom_param_file" value="$(find turtlebot_navigation)/param/move_base_params.yaml" />
@@ -62,7 +61,7 @@
   <!-- Gmapping package configuration! -->
   <!--
   <node pkg="gmapping" type="slam_gmapping" name="gmapping" args="scan:=base_scan"> -->
-  <!--
+
   <node pkg="gmapping" type="slam_gmapping" name="gmapping" args="scan:=scan">
      <param name="odom_frame" value="odom"/>
     <param name="map_update_interval" value="5.0"/>
@@ -91,18 +90,13 @@
     <param name="llsamplestep" value="0.01"/>
     <param name="lasamplerange" value="0.005"/>
     <param name="lasamplestep" value="0.005"/>
-  </node>
-  -->
-
- 
+  </node> 
   <!-- The implementation of the frontier detection and navigation -->
   
-  <!--
   <node pkg="turtlebot_slam_gazebo" type="turtlebot_exploration_gazebo" name="turtlebot_slam_gazebo" output="screen" />
   <node pkg="slam_navigation" type="slam_navigation" name="slam_navigation" output="screen" />
 
   <node pkg="rviz" type="rviz" name="rviz" args="-d $(find turtlebot_slam_gazebo)/view.rviz" />
    
-  -->
 
 </launch>
