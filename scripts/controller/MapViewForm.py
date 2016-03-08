@@ -26,15 +26,24 @@ class MapViewForm(QtGui.QMainWindow):
     def initUI(self):
 
         mapAction = QtGui.QAction('Map', self)
-        mapAction.triggered.connect(self.showOpenFileDialog)
+        mapAction.triggered.connect(self.showOpenMapFileDialog)
+        pathAction = QtGui.QAction('Path', self)
+        pathAction.triggered.connect(self.showOpenPathFileDialog)
         startAction = QtGui.QAction('Start', self)
         startAction.triggered.connect(self.startMonitor)
         stopAction = QtGui.QAction('Stop', self)
         stopAction.triggered.connect(self.stopMonitor)
+
+        self.addPointAction = QtGui.QAction('Add', self)
+        self.addPointAction.triggered.connect(self.addPoint)
+        self.clearPointsAction = QtGui.QAction('clear', self)
+        self.clearPointsAction.triggered.connect(self.clearPoints)
         
         menubar = self.menuBar()
         mapMenu = menubar.addMenu('&Map')
         mapMenu.addAction(mapAction)
+        pathMenu = menubar.addMenu('&Path')
+        pathMenu.addAction(pathAction)
         startMenu = menubar.addMenu('&Start')
         startMenu.addAction(startAction)
         stopMenu = menubar.addMenu('&Stop')
@@ -42,14 +51,31 @@ class MapViewForm(QtGui.QMainWindow):
         
         self.toolbar = self.addToolBar('toolbar')
         self.toolbar.addAction(mapAction)
+        self.toolbar.addAction(pathAction)
         self.toolbar.addAction(startAction)
         self.toolbar.addAction(stopAction)
         
         self.setCentralWidget(self.mMapViewer)
         
         self.show()
+
+    def showOpenMapFileDialog(self):
+
+        fname = QtGui.QFileDialog.getOpenFileName(self, 'Open file')
+
+        pixmap = QtGui.QPixmap(fname)
+        self.mMapViewer.setPixmap(pixmap)
         
-    def showOpenFileDialog(self):
+        self.world_width = pixmap.width()
+        self.world_height = pixmap.height()
+        
+        print str(self.world_width) + " - " + str(self.world_height)
+        self.mMapViewer.mShowPoint = True
+        
+        self.mgr.scale = 5.0
+        self.mgr.worldsize = [self.world_width, self.world_height]    
+
+    def showOpenPathFileDialog(self):
 
         fname = QtGui.QFileDialog.getOpenFileName(self, 'Open file')
                 
@@ -77,6 +103,7 @@ class MapViewForm(QtGui.QMainWindow):
         
         self.mgr.loadPath(mapLoader.path)
         self.mMapViewer.plannedPath = mapLoader.path
+        
         
         
     def timerEvent(self, e):
@@ -114,4 +141,29 @@ class MapViewForm(QtGui.QMainWindow):
         
     def stopMonitor(self):
         self.killTimer(self.timerId)
+
+    def addPoint(self, pos):
+        new_point = [self.clickPoint.x(), self.clickPoint.y()]
+        print "add point " + str(new_point)
+        self.mgr.ctrl.plannedPath.addWaypoint(new_point)
+        self.mgr.ctrl.plannedPath.update()
+        self.mMapViewer.plannedPath.addWaypoint(new_point)
+        self.mMapViewer.plannedPath.update()
+        self.update()
+         
+    def clearPoints(self):
+        print "clear points"
+        self.mgr.plannedPath.clearWaypoints()
+        self.mMapViewer.plannedPath.clearWaypoints()
+        self.update()
+
+    def contextMenuEvent(self, event):
+        menu = QtGui.QMenu(self)
+        addPointAction = menu.addAction("Add Point")
+        addPointAction.triggered.connect(self.addPoint)
+        clearPointsAction = menu.addAction("Clear Points")
+        clearPointsAction.triggered.connect(self.clearPoints)
+        self.clickPoint = event.pos()
+        menu.exec_(self.mapToGlobal(event.pos()))
+      
         

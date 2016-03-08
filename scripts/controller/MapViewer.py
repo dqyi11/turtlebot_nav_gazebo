@@ -5,6 +5,7 @@ Created on Apr 22, 2014
 '''
 
 from PyQt4 import QtGui, QtCore
+from PlannedPathLoader import *
 import math
 
 class MapViewer(QtGui.QLabel):
@@ -17,7 +18,7 @@ class MapViewer(QtGui.QLabel):
         self.mPoint = QtCore.QPoint(5,5)
         self.mPointYaw = 0.0;
         self.mShowPoint = False
-        self.plannedPath = None
+        self.plannedPath = PlannedPath()
         self.plannedPathReachedIdx = 0
     
         

@@ -14,7 +14,6 @@ class TurtlebotManager(object):
     def __init__(self, sampleTime):
         
         self.threshold = 2.0
-        self.plannedPath = None
         self.ctrl = TurtlebotController(sampleTime)
         self.tIdx = 0
         
@@ -28,23 +27,21 @@ class TurtlebotManager(object):
         
     def reached(self, t):
         
-        if self.plannedPath == None:
+        if self.ctrl.plannedPath == None:
             return False        
         
-        if t >= self.plannedPath.length:
+        if t >= self.ctrl.plannedPath.length:
             return False
         
-        dist = math.sqrt((self.currentPos[0]-self.plannedPath.waypoints[t][0])**2+(self.currentPos[1]-self.plannedPath.waypoints[t][1])**2)
+        dist = math.sqrt((self.currentPos[0]-self.ctrl.plannedPath.waypoints[t][0])**2+(self.currentPos[1]-self.ctrl.plannedPath.waypoints[t][1])**2)
         if dist <= self.threshold:
             return True
         return False    
     
     
     def loadPath(self, path):
-        self.plannedPath = path
-        self.tIdx = 0
-        self.ctrl.loadPath(path)
-        
+        self.ctrl.plannedPath = path
+        self.tIdx = 0        
     
     def control(self):
         self.ctrl.control(self.tIdx)

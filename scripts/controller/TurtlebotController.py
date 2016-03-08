@@ -5,6 +5,7 @@ import rospy
 
 from geometry_msgs.msg import Twist
 import numpy as np
+from PlannedPathLoader import *
 
 class TurtlebotController(object):
     
@@ -12,7 +13,7 @@ class TurtlebotController(object):
         self.sampleTime = sampleTime
         self.pub = rospy.Publisher('/cmd_vel_mux/input/teleop', Twist)
 
-        self.plannedPath = None
+        self.plannedPath = PlannedPath()
         
         self.currentPos = [0.0, 0.0]
         self.currentOrientation = 0.0
@@ -25,7 +26,7 @@ class TurtlebotController(object):
         
     def control(self, t):
         
-        if self.plannedPath == None:
+        if self.plannedPath.length == 0:
             return
         
         linear_vel = 0.0

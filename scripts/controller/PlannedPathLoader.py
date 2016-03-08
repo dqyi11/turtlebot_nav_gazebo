@@ -10,17 +10,22 @@ class PlannedPath(object):
         
     def addWaypoint(self, point):
         self.waypoints.append(point)
+    
+    def clearWaypoints(self):
+        self.waypoints = []
         
     def update(self):
         self.length = len(self.waypoints)
-        for t in range(self.length-1):
-            deltaX = self.waypoints[t+1][0] - self.waypoints[t][0]
-            deltaY = self.waypoints[t+1][1] - self.waypoints[t][1]
-            orientation = np.arctan2(deltaY, deltaX)
-            self.wayorientations.append(orientation)
-        self.wayorientations.append(self.wayorientations[t-1])    
+        self.wayorientations = []
+        if self.length>1:
+            for t in range(self.length-1):
+                deltaX = self.waypoints[t+1][0] - self.waypoints[t][0]
+                deltaY = self.waypoints[t+1][1] - self.waypoints[t][1]
+                orientation = np.arctan2(deltaY, deltaX)
+                self.wayorientations.append(orientation)
+            self.wayorientations.append(self.wayorientations[t-1])    
         
-        print self.wayorientations
+            #print self.wayorientations
         
 
 class PlannedPathLoader(object):
