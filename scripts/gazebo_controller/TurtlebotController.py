@@ -26,8 +26,8 @@ class TurtlebotController(object):
         
     def control(self, t):
         
-        if self.plannedPath.length == 0:
-            return
+        #if self.plannedPath.length == 0:
+        #    return
         
         linear_vel = 0.0
         angular_vel = 0.0

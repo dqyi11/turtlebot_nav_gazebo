@@ -15,7 +15,7 @@ class MapViewForm(QtGui.QMainWindow):
     classdocs
     '''
 
-    def __init__(self, scale):
+    def __init__(self, scale=1.0):
         super(QtGui.QMainWindow, self).__init__()
         self.mMapViewer = MapViewer(self)
         self.timerId = -1
@@ -55,8 +55,7 @@ class MapViewForm(QtGui.QMainWindow):
         self.toolbar.addAction(startAction)
         self.toolbar.addAction(stopAction)
         
-        self.setCentralWidget(self.mMapViewer)
-        
+        self.setCentralWidget(self.mMapViewer)        
         self.show()
 
     def showOpenMapFileDialog(self):
@@ -72,7 +71,7 @@ class MapViewForm(QtGui.QMainWindow):
         print str(self.world_width) + " - " + str(self.world_height)
         self.mMapViewer.mShowPoint = True
         
-        self.mgr.scale = 5.0
+        self.mgr.scale = self.scale
         self.mgr.worldsize = [self.world_width, self.world_height]    
 
     def showOpenPathFileDialog(self):
@@ -98,7 +97,7 @@ class MapViewForm(QtGui.QMainWindow):
         print str(self.world_width) + " - " + str(self.world_height)
         self.mMapViewer.mShowPoint = True
         
-        self.mgr.scale = 5.0
+        self.mgr.scale = self.scale
         self.mgr.worldsize = [self.world_width, self.world_height]
         
         self.mgr.loadPath(mapLoader.path)
@@ -133,7 +132,6 @@ class MapViewForm(QtGui.QMainWindow):
         self.mMapViewer.mPointYaw = self.mgr.currentOrientation      
         
         self.update()
-        self.mgr.control()
         self.mMapViewer.plannedPathReachedIdx = self.mgr.tIdx
         
     def startMonitor(self):
@@ -145,8 +143,8 @@ class MapViewForm(QtGui.QMainWindow):
     def addPoint(self, pos):
         new_point = [self.clickPoint.x(), self.clickPoint.y()]
         print "add point " + str(new_point)
-        self.mgr.ctrl.plannedPath.addWaypoint(new_point)
-        self.mgr.ctrl.plannedPath.update()
+        self.mgr.plannedPath.addWaypoint(new_point)
+        self.mgr.plannedPath.update()
         self.mMapViewer.plannedPath.addWaypoint(new_point)
         self.mMapViewer.plannedPath.update()
         self.update()

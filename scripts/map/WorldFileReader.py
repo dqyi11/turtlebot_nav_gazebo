@@ -10,7 +10,6 @@ import math
 import numpy as np
 from shapely.geometry import Polygon, Point
 
-
 class modelObject(object):
     
     def __init__(self, name):
