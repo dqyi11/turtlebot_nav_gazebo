@@ -63,6 +63,7 @@ class MapViewer(QtGui.QLabel):
         self.mPoint.setX(x)
         self.mPoint.setY(y)
         
+
     
             
         

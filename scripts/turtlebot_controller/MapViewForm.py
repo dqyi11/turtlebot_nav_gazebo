@@ -5,6 +5,7 @@ Created on Apr 22, 2014
 '''
 
 from PyQt4 import QtGui, QtCore
+from PyQt4.QtCore import pyqtSlot,SIGNAL,SLOT
 from MapViewer import *
 from PlannedPathLoader import *
 from TurtlebotManager import *
@@ -15,11 +16,11 @@ class MapViewForm(QtGui.QMainWindow):
     classdocs
     '''
 
-    def __init__(self, scale=1.0):
+    def __init__(self, origin, delta, scale=1.0):
         super(QtGui.QMainWindow, self).__init__()
         self.mMapViewer = MapViewer(self)
         self.timerId = -1
-        self.mgr = TurtlebotManager(0.5)
+        self.mgr = TurtlebotManager(delta, origin, 0.05)
         self.scale = scale
         self.initUI()
         
@@ -54,6 +55,9 @@ class MapViewForm(QtGui.QMainWindow):
         self.toolbar.addAction(pathAction)
         self.toolbar.addAction(startAction)
         self.toolbar.addAction(stopAction)
+
+        self.setContextMenuPolicy(QtCore.Qt.CustomContextMenu);
+        self.connect(self, QtCore.SIGNAL('customContextMenuRequested(const QPoint&)'), self.contextMenuRequested)
         
         self.setCentralWidget(self.mMapViewer)        
         self.show()
@@ -117,15 +121,6 @@ class MapViewForm(QtGui.QMainWindow):
         posx = self.mgr.currentPos[0]
         posy = self.mgr.currentPos[1]
         
-        '''
-        xPos = self.mMapViewer.mPoint.x()
-        yPos = self.mMapViewer.mPoint.y()
-        if xPos < self.mMapViewer.width():
-            self.mMapViewer.mPoint.setX(xPos+1)
-        if self.mMapViewer.mPoint.y() < self.mMapViewer.height():
-            self.mMapViewer.mPoint.setY(yPos+1)
-        self.statusBar().showMessage(str(xPos)+"+"+str(yPos))
-        '''
         
         self.mMapViewer.mPoint.setX(posx)
         self.mMapViewer.mPoint.setY(posy)  
@@ -133,6 +128,8 @@ class MapViewForm(QtGui.QMainWindow):
         
         self.update()
         self.mMapViewer.plannedPathReachedIdx = self.mgr.tIdx
+
+        self.mgr.ctrl()
         
     def startMonitor(self):
         self.timerId = self.startTimer(50)
@@ -155,13 +152,13 @@ class MapViewForm(QtGui.QMainWindow):
         self.mMapViewer.plannedPath.clearWaypoints()
         self.update()
 
-    def contextMenuEvent(self, event):
+    def contextMenuRequested(self, point):
         menu = QtGui.QMenu(self)
         addPointAction = menu.addAction("Add Point")
         addPointAction.triggered.connect(self.addPoint)
         clearPointsAction = menu.addAction("Clear Points")
         clearPointsAction.triggered.connect(self.clearPoints)
-        self.clickPoint = event.pos()
-        menu.exec_(self.mapToGlobal(event.pos()))
+        self.clickPoint = self.mMapViewer.mapFromGlobal( self.mapToGlobal(point) )
+        menu.exec_(self.mapToGlobal(point))
       
         
